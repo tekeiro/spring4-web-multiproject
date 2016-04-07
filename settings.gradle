@@ -1,0 +1,4 @@
+rootProject.name = 'spring4-web-multiproject'
+include 'domain'
+include 'admin'
+

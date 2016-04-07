@@ -1,0 +1,57 @@
+group 'org.keirobm.samples.spring4multiproject'
+version '0.0.1'
+
+
+
+ext {
+    springBootVersion = "1.2.7.RELEASE"
+    servletVersion = "3.1.0"
+    mySqlConnectorVersion = "5.1.31"
+    commonsDbcpVersion = "1.4"
+    jstlVersion = "1.2"
+
+    junitVersion = "4.11"
+}
+
+allprojects {
+    apply plugin: 'java'
+
+
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+        compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+        compile "javax.servlet:javax.servlet-api:$servletVersion"
+        compile "mysql:mysql-connector-java:$mySqlConnectorVersion"
+        compile "commons-dbcp:commons-dbcp:$commonsDbcpVersion"
+        compile "jstl:jstl:$jstlVersion"
+
+
+        testCompile "junit:junit:$junitVersion"
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+project(':domain') {
+    apply plugin: 'java'
+    apply plugin: 'war'
+
+    dependencies {
+        providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion"
+    }
+}
+
+project(":admin") {
+    apply plugin: 'java'
+    apply plugin: 'war'
+
+    dependencies {
+        compile project(":domain")
+        providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion"
+    }
+}
